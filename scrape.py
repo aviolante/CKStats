@@ -53,7 +53,7 @@ def parse_int(cell: str) -> int:
         return 0
 
 
-def parse_box_score(html: str, our_team: str) -> dict:
+def parse_box_score(html: str, our_team: str, roster: dict | None = None) -> dict:
     """Parse one EasyStats box-score page. Returns dict with game info + our players."""
     title_m = re.search(r"<title>([^<]+)</title>", html)
     title = title_m.group(1).strip() if title_m else ""
@@ -134,6 +134,9 @@ def parse_box_score(html: str, our_team: str) -> dict:
         if not m:
             continue
         jersey, name = m.group(1), m.group(2).strip()
+        # Apply roster override (e.g., correct mistyped jersey numbers in source).
+        if roster and name in roster and "jersey" in roster[name]:
+            jersey = str(roster[name]["jersey"])
 
         fgm, fga = parse_made_attempted(cells[i_fg])
         tpm, tpa = parse_made_attempted(cells[i_3p])
@@ -253,6 +256,7 @@ def aggregate_player(games_for_player: list[dict]) -> dict:
 def main() -> int:
     config = json.loads(CONFIG_PATH.read_text())
     our_team = config["team_name"]
+    roster = config.get("roster", {})
 
     games_out = []
     # player_key -> {jersey, name, per_game: [...]}
@@ -264,7 +268,7 @@ def main() -> int:
         notes = entry.get("notes", "")
         print(f"fetching {url} ...", file=sys.stderr)
         html = fetch(url)
-        game = parse_box_score(html, our_team)
+        game = parse_box_score(html, our_team, roster)
         game["url"] = url
         game["minutes"] = minutes
         game["notes"] = notes

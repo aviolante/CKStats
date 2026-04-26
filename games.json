@@ -1,5 +1,8 @@
 {
   "team_name": "Carolina Krakens",
+  "roster": {
+    "L. French": { "jersey": "13" }
+  },
   "games": [
     {
       "url": "https://easystats-bball.s3.amazonaws.com/041FC254-51C6-45D6-A2FB-34435C1E0084.html",
