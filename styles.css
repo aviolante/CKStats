@@ -315,3 +315,70 @@ table.box td.dnp { color: var(--muted); font-style: italic; text-align: left; }
 }
 
 .print-header { display: none; }
+
+/* ---------- shooting splits charts ---------- */
+
+.splits-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.splits-row {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.splits-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.splits-track {
+  height: 18px;
+  background: #f0f0f5;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.splits-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.splits-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.splits-sub {
+  color: var(--muted);
+  font-weight: 400;
+  margin-left: 4px;
+  font-size: 12px;
+}
+
+.trend-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.trend-svg {
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+  min-width: 480px;
+}
+
+@media print {
+  .trend-svg { max-height: 240px; }
+  .splits-track { background: #eee; }
+}

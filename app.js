@@ -396,6 +396,19 @@ function renderPlayer() {
   ];
   root.appendChild(renderStatGrid(tiles));
 
+  // Shooting splits — season + game-by-game trend.
+  const splitsCard = document.createElement("div");
+  splitsCard.className = "card";
+  splitsCard.innerHTML = `<div class="section-header"><h2>Shooting Splits — Season</h2></div>`;
+  splitsCard.appendChild(buildSplitsBarChart(player.totals));
+  root.appendChild(splitsCard);
+
+  const trendCard = document.createElement("div");
+  trendCard.className = "card";
+  trendCard.innerHTML = `<div class="section-header"><h2>Shooting Splits — Game by Game</h2></div>`;
+  trendCard.appendChild(buildShootingTrendChart(player));
+  root.appendChild(trendCard);
+
   // Game log.
   const card = document.createElement("div");
   card.className = "card";
@@ -404,6 +417,200 @@ function renderPlayer() {
   root.appendChild(card);
 
   return root;
+}
+
+// ---------- shooting splits charts ----------
+
+const SPLIT_COLORS = {
+  fg:  "#1b1464",
+  tp:  "#e8a317",
+  ft:  "#178a3a",
+  efg: "#5a4cad",
+  ts:  "#b3261e",
+};
+
+function buildSplitsBarChart(totals) {
+  const rows = [
+    { label: "FG%",  pct: totals.fg_pct,  m: totals.fgm, a: totals.fga, color: SPLIT_COLORS.fg },
+    { label: "3PT%", pct: totals.tp_pct,  m: totals.tpm, a: totals.tpa, color: SPLIT_COLORS.tp },
+    { label: "FT%",  pct: totals.ft_pct,  m: totals.ftm, a: totals.fta, color: SPLIT_COLORS.ft },
+    { label: "eFG%", pct: totals.efg_pct, color: SPLIT_COLORS.efg },
+    { label: "TS%",  pct: totals.ts_pct,  color: SPLIT_COLORS.ts  },
+  ];
+
+  const wrap = document.createElement("div");
+  wrap.className = "splits-bars";
+  for (const r of rows) {
+    const row = document.createElement("div");
+    row.className = "splits-row";
+    const pctVal = r.pct != null ? Math.max(0, Math.min(1, r.pct)) : 0;
+    const labelText = r.pct != null ? (r.pct * 100).toFixed(1) + "%" : "—";
+    const subText = (r.m != null && r.a != null) ? ` (${r.m}/${r.a})` : "";
+    row.innerHTML = `
+      <div class="splits-label">${r.label}</div>
+      <div class="splits-track">
+        <div class="splits-fill" style="width:${pctVal * 100}%; background:${r.color};"></div>
+      </div>
+      <div class="splits-value">${labelText}<span class="splits-sub">${subText}</span></div>
+    `;
+    wrap.appendChild(row);
+  }
+  return wrap;
+}
+
+function buildShootingTrendChart(player) {
+  const games = player.per_game.filter(g => !g.dnp);
+  if (games.length === 0) {
+    const note = document.createElement("div");
+    note.className = "subtitle";
+    note.textContent = "No games played.";
+    return note;
+  }
+
+  // Series: FG%, 3PT%, FT%. null where 0 attempts (creates a gap).
+  const series = [
+    { key: "fg_pct",  label: "FG%",  color: SPLIT_COLORS.fg, attemptsKey: "fga" },
+    { key: "tp_pct",  label: "3PT%", color: SPLIT_COLORS.tp, attemptsKey: "tpa" },
+    { key: "ft_pct",  label: "FT%",  color: SPLIT_COLORS.ft, attemptsKey: "fta" },
+  ];
+
+  // Layout
+  const W = 720, H = 280;
+  const M = { top: 20, right: 100, bottom: 50, left: 40 };
+  const innerW = W - M.left - M.right;
+  const innerH = H - M.top - M.bottom;
+  const n = games.length;
+  const xFor = (i) => M.left + (n === 1 ? innerW / 2 : (i / (n - 1)) * innerW);
+  const yFor = (pct) => M.top + (1 - pct) * innerH;
+
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS, "svg");
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  svg.setAttribute("class", "trend-svg");
+  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+  // Y gridlines at 0/25/50/75/100%
+  for (const pct of [0, 0.25, 0.5, 0.75, 1.0]) {
+    const y = yFor(pct);
+    const line = document.createElementNS(svgNS, "line");
+    line.setAttribute("x1", M.left); line.setAttribute("x2", M.left + innerW);
+    line.setAttribute("y1", y); line.setAttribute("y2", y);
+    line.setAttribute("stroke", "#e2e2e8");
+    line.setAttribute("stroke-dasharray", pct === 0 || pct === 1 ? "" : "3,3");
+    svg.appendChild(line);
+
+    const label = document.createElementNS(svgNS, "text");
+    label.setAttribute("x", M.left - 6);
+    label.setAttribute("y", y + 4);
+    label.setAttribute("text-anchor", "end");
+    label.setAttribute("font-size", "11");
+    label.setAttribute("fill", "#6b6b75");
+    label.textContent = (pct * 100).toFixed(0) + "%";
+    svg.appendChild(label);
+  }
+
+  // X labels: opponent abbreviation per game
+  for (let i = 0; i < n; i++) {
+    const x = xFor(i);
+    const tick = document.createElementNS(svgNS, "line");
+    tick.setAttribute("x1", x); tick.setAttribute("x2", x);
+    tick.setAttribute("y1", M.top + innerH); tick.setAttribute("y2", M.top + innerH + 4);
+    tick.setAttribute("stroke", "#aaa");
+    svg.appendChild(tick);
+
+    const t = document.createElementNS(svgNS, "text");
+    t.setAttribute("x", x);
+    t.setAttribute("y", M.top + innerH + 18);
+    t.setAttribute("text-anchor", "middle");
+    t.setAttribute("font-size", "10");
+    t.setAttribute("fill", "#6b6b75");
+    const opp = games[i].opponent || "";
+    const short = opp.length > 12 ? opp.slice(0, 11) + "…" : opp;
+    t.textContent = short;
+    svg.appendChild(t);
+
+    // Date below
+    if (games[i].date) {
+      const d = document.createElementNS(svgNS, "text");
+      d.setAttribute("x", x);
+      d.setAttribute("y", M.top + innerH + 32);
+      d.setAttribute("text-anchor", "middle");
+      d.setAttribute("font-size", "9");
+      d.setAttribute("fill", "#9b9ba2");
+      d.textContent = games[i].date.slice(5); // MM-DD
+      svg.appendChild(d);
+    }
+  }
+
+  // Plot lines for each series, breaking on null.
+  for (const s of series) {
+    const segs = [];
+    let current = [];
+    games.forEach((g, i) => {
+      const attempts = g[s.attemptsKey];
+      const v = (attempts && attempts > 0) ? g[s.key] : null;
+      if (v == null) {
+        if (current.length) segs.push(current);
+        current = [];
+      } else {
+        current.push({ i, v });
+      }
+    });
+    if (current.length) segs.push(current);
+
+    for (const seg of segs) {
+      if (seg.length === 1) {
+        // Lone point — just draw the dot below.
+      } else {
+        const d = seg.map((p, j) => `${j === 0 ? "M" : "L"} ${xFor(p.i)} ${yFor(p.v)}`).join(" ");
+        const path = document.createElementNS(svgNS, "path");
+        path.setAttribute("d", d);
+        path.setAttribute("fill", "none");
+        path.setAttribute("stroke", s.color);
+        path.setAttribute("stroke-width", "2");
+        path.setAttribute("stroke-linecap", "round");
+        path.setAttribute("stroke-linejoin", "round");
+        svg.appendChild(path);
+      }
+      for (const p of seg) {
+        const c = document.createElementNS(svgNS, "circle");
+        c.setAttribute("cx", xFor(p.i));
+        c.setAttribute("cy", yFor(p.v));
+        c.setAttribute("r", "3.5");
+        c.setAttribute("fill", "#fff");
+        c.setAttribute("stroke", s.color);
+        c.setAttribute("stroke-width", "2");
+        const title = document.createElementNS(svgNS, "title");
+        title.textContent = `${s.label}: ${(p.v * 100).toFixed(1)}% vs ${games[p.i].opponent}`;
+        c.appendChild(title);
+        svg.appendChild(c);
+      }
+    }
+  }
+
+  // Legend on the right
+  series.forEach((s, idx) => {
+    const ly = M.top + 16 + idx * 22;
+    const lx = M.left + innerW + 14;
+    const sw = document.createElementNS(svgNS, "line");
+    sw.setAttribute("x1", lx); sw.setAttribute("x2", lx + 18);
+    sw.setAttribute("y1", ly); sw.setAttribute("y2", ly);
+    sw.setAttribute("stroke", s.color);
+    sw.setAttribute("stroke-width", "3");
+    svg.appendChild(sw);
+    const lt = document.createElementNS(svgNS, "text");
+    lt.setAttribute("x", lx + 24);
+    lt.setAttribute("y", ly + 4);
+    lt.setAttribute("font-size", "12");
+    lt.setAttribute("fill", "#1a1a1f");
+    lt.textContent = s.label;
+    svg.appendChild(lt);
+  });
+
+  const wrap = document.createElement("div");
+  wrap.className = "trend-wrap";
+  wrap.appendChild(svg);
+  return wrap;
 }
 
 function buildPlayerGameLog(player) {
