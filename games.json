@@ -1,0 +1,25 @@
+{
+  "team_name": "Carolina Krakens",
+  "games": [
+    {
+      "url": "https://easystats-bball.s3.amazonaws.com/041FC254-51C6-45D6-A2FB-34435C1E0084.html",
+      "minutes": 40,
+      "notes": ""
+    },
+    {
+      "url": "https://easystats-bball.s3.amazonaws.com/D632322B-D26A-4F07-8979-827695ACB87E.html",
+      "minutes": 40,
+      "notes": ""
+    },
+    {
+      "url": "https://easystats-bball.s3.amazonaws.com/0CE86715-C0DB-47A7-9AD6-F0DD55EB0E7D.html",
+      "minutes": 40,
+      "notes": ""
+    },
+    {
+      "url": "https://easystats-bball.s3.amazonaws.com/80E39EF8-55AE-40B4-9B2B-DF34B5C4F51C.html",
+      "minutes": 40,
+      "notes": ""
+    }
+  ]
+}

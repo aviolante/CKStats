@@ -1,0 +1,317 @@
+:root {
+  --primary: #1b1464;
+  --accent: #e8a317;
+  --bg: #fafafa;
+  --card: #fff;
+  --border: #e2e2e8;
+  --text: #1a1a1f;
+  --muted: #6b6b75;
+  --win: #178a3a;
+  --loss: #b3261e;
+  --row-alt: #f6f6fa;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+}
+
+.app-header {
+  background: var(--primary);
+  color: #fff;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: 0.3px;
+}
+
+.brand .meta {
+  font-size: 13px;
+  color: rgba(255,255,255,0.78);
+  margin-top: 2px;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.tab {
+  appearance: none;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #fff;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.tab:hover { background: rgba(255,255,255,0.08); }
+
+.tab.active {
+  background: var(--accent);
+  color: #1a1a1f;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.view-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
+
+.section-header h2 {
+  font-size: 15px;
+  margin: 0;
+  font-weight: 600;
+}
+
+table.box {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+table.box th, table.box td {
+  padding: 6px 6px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+table.box th {
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  background: #f0f0f5;
+}
+
+table.box th:first-child, table.box td:first-child {
+  text-align: left;
+}
+
+table.box tbody tr:nth-child(even) { background: var(--row-alt); }
+
+table.box tbody tr.team-totals {
+  font-weight: 700;
+  background: #eef0fa !important;
+  border-top: 2px solid var(--primary);
+}
+
+table.box tbody tr.team-totals td { border-bottom: none; }
+
+table.box td.dnp { color: var(--muted); font-style: italic; text-align: left; }
+
+.pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.pill.W { background: #d8efe0; color: var(--win); }
+.pill.L { background: #f6dad7; color: var(--loss); }
+.pill.T { background: #e2e2e8; color: var(--muted); }
+
+.games-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 12px;
+}
+
+.game-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.game-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.game-card.active {
+  border-color: var(--primary);
+  border-width: 2px;
+  padding: 13px;
+}
+
+.game-card .date {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.game-card .matchup {
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.game-card .score {
+  font-size: 20px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.player-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.player-chip {
+  padding: 8px 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.player-chip:hover { border-color: var(--primary); }
+
+.player-chip.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat-tile {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px;
+  text-align: center;
+}
+
+.stat-tile .label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.stat-tile .value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stat-tile .sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.app-footer {
+  border-top: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+#print-btn {
+  appearance: none;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+#print-btn:hover { background: #2a209a; }
+
+.error {
+  background: #f6dad7;
+  border: 1px solid var(--loss);
+  color: var(--loss);
+  padding: 12px 16px;
+  border-radius: 6px;
+}
+
+/* Print styles for PDF export. */
+@media print {
+  body { background: #fff; font-size: 11px; }
+  .no-print { display: none !important; }
+  main { padding: 0; max-width: none; }
+  .card { border: 1px solid #ccc; box-shadow: none; page-break-inside: avoid; margin-bottom: 12px; padding: 10px; }
+  table.box { font-size: 10px; }
+  table.box th, table.box td { padding: 3px 4px; }
+  .stat-grid { gap: 6px; }
+  .stat-tile { padding: 6px; }
+  .stat-tile .value { font-size: 16px; }
+  .view-title { font-size: 16px; }
+  h2 { page-break-after: avoid; }
+  /* Show a print-only header on the season report. */
+  .print-header { display: block !important; text-align: center; margin-bottom: 12px; }
+  .print-header h1 { color: var(--primary); font-size: 22px; margin: 0; }
+  .print-header .sub { font-size: 12px; color: #555; }
+}
+
+.print-header { display: none; }
