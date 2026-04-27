@@ -145,7 +145,7 @@ table.box tbody tr.team-totals {
 
 table.box tbody tr.team-totals td { border-bottom: none; }
 
-table.box td.dnp { color: var(--muted); font-style: italic; text-align: left; }
+table.box td.dnp { color: var(--muted); font-style: italic; text-align: left; font-size: 11px; padding: 3px 6px; }
 
 .pill {
   display: inline-block;
