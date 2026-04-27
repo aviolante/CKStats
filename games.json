@@ -22,7 +22,8 @@
     {
       "url": "https://easystats-bball.s3.amazonaws.com/80E39EF8-55AE-40B4-9B2B-DF34B5C4F51C.html",
       "minutes": 40,
-      "notes": ""
+      "notes": "",
+      "opp_score": 77
     }
   ]
 }

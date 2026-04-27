@@ -272,6 +272,15 @@ def main() -> int:
         game["url"] = url
         game["minutes"] = minutes
         game["notes"] = notes
+        # Optional score overrides for source data-entry errors.
+        if "our_score" in entry:
+            game["our_score"] = int(entry["our_score"])
+        if "opp_score" in entry:
+            game["opp_score"] = int(entry["opp_score"])
+        # Recompute result if either was overridden.
+        if "our_score" in entry or "opp_score" in entry:
+            game["result"] = ("W" if game["our_score"] > game["opp_score"]
+                              else ("L" if game["our_score"] < game["opp_score"] else "T"))
         # Add team totals (sum across our players who played) + advanced.
         team_totals = {k: 0 for k in COUNTING_KEYS}
         for p in game["players"]:
