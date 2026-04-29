@@ -74,8 +74,7 @@ async function load() {
   document.getElementById("team-title").textContent = state.data.team_name;
   const s = state.data.season;
   document.getElementById("season-meta").textContent =
-    `${s.games} games · Record ${s.record.W}-${s.record.L}${s.record.T ? "-" + s.record.T : ""} · Generated ${state.data.generated_at}`;
-  document.getElementById("generated-at").textContent = "Generated " + state.data.generated_at;
+    `${s.games} games · Record ${s.record.W}-${s.record.L}${s.record.T ? "-" + s.record.T : ""}`;
   state.selectedPlayer = state.data.players[0]?.name || null;
   render();
 }
@@ -101,7 +100,7 @@ function renderSeason() {
   const ph = document.createElement("div");
   ph.className = "print-header";
   ph.innerHTML = `<h1>${d.team_name} — Season Box Score</h1>
-    <div class="sub">${d.season.games} games · Record ${d.season.record.W}-${d.season.record.L}${d.season.record.T ? "-" + d.season.record.T : ""} · Generated ${d.generated_at}</div>`;
+    <div class="sub">${d.season.games} games · Record ${d.season.record.W}-${d.season.record.L}${d.season.record.T ? "-" + d.season.record.T : ""}</div>`;
   root.appendChild(ph);
 
   // Top tile grid: team totals.
