@@ -272,6 +272,9 @@ def main() -> int:
         game["url"] = url
         game["minutes"] = minutes
         game["notes"] = notes
+        # Optional opponent name override (EasyStats often uses a short/wrong name).
+        if "opponent" in entry:
+            game["opponent"] = entry["opponent"]
         # Optional score overrides for source data-entry errors.
         if "our_score" in entry:
             game["our_score"] = int(entry["our_score"])
