@@ -227,6 +227,28 @@ table.box td.dnp { color: var(--muted); font-style: italic; text-align: left; fo
   margin-top: 6px;
 }
 
+.video-link {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.video-link:hover {
+  background: #2a209a;
+}
+
+.section-header .video-link { margin-top: 0; }
+
+@media print {
+  .video-link { display: none; }
+}
+
 .player-picker {
   display: flex;
   flex-wrap: wrap;

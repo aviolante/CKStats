@@ -59,6 +59,18 @@ async function load() {
        <code>http://localhost:8000</code>.</small><br><br>${e}</div>`;
     return;
   }
+  // Overlay non-scraped fields from games.json (e.g. video_url) so they survive re-scrapes.
+  try {
+    const cfgRes = await fetch("games.json", { cache: "no-store" });
+    if (cfgRes.ok) {
+      const cfg = await cfgRes.json();
+      (cfg.games || []).forEach((entry, i) => {
+        if (state.data.games[i] && entry.video_url) {
+          state.data.games[i].video_url = entry.video_url;
+        }
+      });
+    }
+  } catch (_) { /* non-fatal */ }
   document.getElementById("team-title").textContent = state.data.team_name;
   const s = state.data.season;
   document.getElementById("season-meta").textContent =
@@ -295,6 +307,9 @@ function renderGames() {
     const card = document.createElement("div");
     card.className = "game-card" + (idx === state.selectedGame ? " active" : "");
     const margin = g.our_score - g.opp_score;
+    const videoLink = g.video_url
+      ? `<a class="video-link" href="${escapeHTML(g.video_url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">▶ Watch footage</a>`
+      : "";
     card.innerHTML = `
       <div class="date">${g.date_display}</div>
       <div class="matchup">vs ${escapeHTML(g.opponent)}
@@ -304,6 +319,7 @@ function renderGames() {
         <span style="font-size:12px;color:var(--muted);font-weight:normal;margin-left:6px">${margin > 0 ? "+" : ""}${margin}</span>
       </div>
       <div class="date">${g.minutes} min · ${g.location}</div>
+      ${videoLink}
     `;
     card.addEventListener("click", () => { state.selectedGame = idx; render(); });
     list.appendChild(card);
@@ -316,8 +332,11 @@ function renderGames() {
     const card = document.createElement("div");
     card.className = "card";
     card.style.marginTop = "20px";
+    const headerVideo = g.video_url
+      ? `<a class="video-link" href="${escapeHTML(g.video_url)}" target="_blank" rel="noopener">▶ Watch footage</a>`
+      : "";
     card.innerHTML = `<div class="section-header"><h2>${escapeHTML(state.data.team_name)} vs ${escapeHTML(g.opponent)} — ${g.date_display}</h2>
-      <span class="pill ${g.result}">${g.result} ${g.our_score}-${g.opp_score}</span></div>`;
+      <div style="display:flex;gap:10px;align-items:center">${headerVideo}<span class="pill ${g.result}">${g.result} ${g.our_score}-${g.opp_score}</span></div></div>`;
     card.appendChild(buildSingleGameBoxScore(g));
     root.appendChild(card);
   }
