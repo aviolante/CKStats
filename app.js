@@ -497,21 +497,29 @@ function renderPlayer() {
 
 // ---------- shooting splits charts ----------
 
-const SPLIT_COLORS = {
-  fg:  "#1b1464",
-  tp:  "#e8a317",
-  ft:  "#178a3a",
-  efg: "#5a4cad",
-  ts:  "#b3261e",
+// 3-line trend chart — first/middle/last of the monochromatic gradient.
+const TREND_COLORS = {
+  fg: "#00FFFA",  // brightest
+  tp: "#39AAA8",  // middle
+  ft: "#395555",  // darkest
+};
+
+// 5-bar splits chart — monochromatic teal palette (brightest → darkest).
+const SPLIT_BAR_COLORS = {
+  fg:  "#00FFFA",
+  tp:  "#23D5D2",
+  ft:  "#39AAA8",
+  efg: "#40807E",
+  ts:  "#395555",
 };
 
 function buildSplitsBarChart(totals) {
   const rows = [
-    { label: "FG%",  pct: totals.fg_pct,  m: totals.fgm, a: totals.fga, color: SPLIT_COLORS.fg },
-    { label: "3PT%", pct: totals.tp_pct,  m: totals.tpm, a: totals.tpa, color: SPLIT_COLORS.tp },
-    { label: "FT%",  pct: totals.ft_pct,  m: totals.ftm, a: totals.fta, color: SPLIT_COLORS.ft },
-    { label: "eFG%", pct: totals.efg_pct, color: SPLIT_COLORS.efg },
-    { label: "TS%",  pct: totals.ts_pct,  color: SPLIT_COLORS.ts  },
+    { label: "FG%",  pct: totals.fg_pct,  m: totals.fgm, a: totals.fga, color: SPLIT_BAR_COLORS.fg },
+    { label: "3PT%", pct: totals.tp_pct,  m: totals.tpm, a: totals.tpa, color: SPLIT_BAR_COLORS.tp },
+    { label: "FT%",  pct: totals.ft_pct,  m: totals.ftm, a: totals.fta, color: SPLIT_BAR_COLORS.ft },
+    { label: "eFG%", pct: totals.efg_pct, color: SPLIT_BAR_COLORS.efg },
+    { label: "TS%",  pct: totals.ts_pct,  color: SPLIT_BAR_COLORS.ts  },
   ];
 
   const wrap = document.createElement("div");
@@ -545,9 +553,9 @@ function buildShootingTrendChart(player) {
 
   // Series: FG%, 3PT%, FT%. null where 0 attempts (creates a gap).
   const series = [
-    { key: "fg_pct",  label: "FG%",  color: SPLIT_COLORS.fg, attemptsKey: "fga" },
-    { key: "tp_pct",  label: "3PT%", color: SPLIT_COLORS.tp, attemptsKey: "tpa" },
-    { key: "ft_pct",  label: "FT%",  color: SPLIT_COLORS.ft, attemptsKey: "fta" },
+    { key: "fg_pct",  label: "FG%",  color: TREND_COLORS.fg, attemptsKey: "fga" },
+    { key: "tp_pct",  label: "3PT%", color: TREND_COLORS.tp, attemptsKey: "tpa" },
+    { key: "ft_pct",  label: "FT%",  color: TREND_COLORS.ft, attemptsKey: "fta" },
   ];
 
   // Layout

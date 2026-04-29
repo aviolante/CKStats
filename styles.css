@@ -1,6 +1,11 @@
 :root {
-  --primary: #1b1464;
-  --accent: #e8a317;
+  /* Carolina Krakens brand palette */
+  --primary: #000000;       /* black */
+  --accent: #00b4b0;        /* teal (green 2) */
+  --accent-bright: #00fffa; /* bright cyan (green 1) */
+  --accent-2: #fe00ff;      /* magenta */
+  --brand-blue: #4396f7;    /* blue */
+  --basketball: #eb5027;    /* orange */
   --bg: #fafafa;
   --card: #fff;
   --border: #e2e2e8;
@@ -24,12 +29,26 @@ body {
 .app-header {
   background: var(--primary);
   color: #fff;
-  padding: 16px 24px;
+  padding: 14px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
+  border-bottom: 3px solid var(--accent);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.brand-logo {
+  height: 56px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
 }
 
 .brand h1 {
@@ -65,9 +84,9 @@ body {
 
 .tab.active {
   background: var(--accent);
-  color: #1a1a1f;
+  color: #0f1419;
   border-color: var(--accent);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 main {
@@ -150,6 +169,10 @@ table.box th.sorted {
   font-size: 9px;
   margin-left: 2px;
   color: var(--accent);
+}
+
+table.box tbody tr.team-totals {
+  border-top-color: var(--accent) !important;
 }
 
 @media print {
@@ -240,7 +263,7 @@ table.box td.dnp { color: var(--muted); font-style: italic; text-align: left; fo
 }
 
 .video-link:hover {
-  background: #2a209a;
+  background: #1f1f1f;
 }
 
 .section-header .video-link { margin-top: 0; }
@@ -332,7 +355,7 @@ table.box td.dnp { color: var(--muted); font-style: italic; text-align: left; fo
   font-weight: 600;
 }
 
-#print-btn:hover { background: #2a209a; }
+#print-btn:hover { background: #1f1f1f; }
 
 .error {
   background: #f6dad7;
