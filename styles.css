@@ -131,6 +131,31 @@ table.box th {
   background: #f0f0f5;
 }
 
+table.box th.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+table.box th.sortable:hover {
+  background: #e6e6f0;
+  color: var(--text);
+}
+
+table.box th.sorted {
+  color: var(--primary);
+  background: #e6e6f0;
+}
+
+.sort-arrow {
+  font-size: 9px;
+  margin-left: 2px;
+  color: var(--accent);
+}
+
+@media print {
+  .sort-arrow { display: none; }
+}
+
 table.box th:first-child, table.box td:first-child {
   text-align: left;
 }

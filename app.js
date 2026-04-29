@@ -5,7 +5,37 @@ const state = {
   view: "season",
   selectedGame: 0,
   selectedPlayer: null,
+  sort: {},  // tableId -> { col, dir: "asc"|"desc" }
 };
+
+const TEXT_COLS = new Set(["_player", "_date", "_opp", "_res"]);
+
+function handleSort(tableId, colKey) {
+  const cur = state.sort[tableId];
+  let dir;
+  if (cur && cur.col === colKey) {
+    dir = cur.dir === "desc" ? "asc" : "desc";
+  } else {
+    dir = TEXT_COLS.has(colKey) ? "asc" : "desc";
+  }
+  state.sort[tableId] = { col: colKey, dir };
+  render();
+}
+
+function sortRows(rows, getValue, dir) {
+  const mult = dir === "asc" ? 1 : -1;
+  return rows.slice().sort((a, b) => {
+    const va = getValue(a);
+    const vb = getValue(b);
+    const aNull = va == null || (typeof va === "number" && isNaN(va));
+    const bNull = vb == null || (typeof vb === "number" && isNaN(vb));
+    if (aNull && bNull) return 0;
+    if (aNull) return 1;   // nulls always go to bottom
+    if (bNull) return -1;
+    if (typeof va === "string") return mult * va.localeCompare(vb);
+    return mult * (va - vb);
+  });
+}
 
 const fmt = {
   pct: (v) => v == null ? "—" : (v * 100).toFixed(1) + "%",
@@ -122,11 +152,16 @@ function buildPlayerTotalsTable(players, mode) {
     { k: "_ato", h: "A/TO" },
     { k: "plus_minus", h: "+/-", signed: true },
   ];
+  const tableId = "player-totals";
   const table = document.createElement("table");
   table.className = "box";
-  table.appendChild(buildHeader(cols));
+  table.appendChild(buildHeader(cols, tableId));
   const tbody = document.createElement("tbody");
-  for (const p of players) {
+  const sort = state.sort[tableId];
+  const sortedPlayers = sort
+    ? sortRows(players, p => playerTotalsSortValue(p, sort.col), sort.dir)
+    : players;
+  for (const p of sortedPlayers) {
     const t = p.totals;
     const tr = document.createElement("tr");
     for (const c of cols) {
@@ -192,11 +227,16 @@ function buildPlayerAveragesTable(players) {
     { k: "foul_pg", h: "PF/G", d: 1 },
     { k: "plus_minus_pg", h: "+/- avg", d: 1, signed: true },
   ];
+  const tableId = "player-averages";
   const table = document.createElement("table");
   table.className = "box";
-  table.appendChild(buildHeader(cols));
+  table.appendChild(buildHeader(cols, tableId));
   const tbody = document.createElement("tbody");
-  for (const p of players) {
+  const sort = state.sort[tableId];
+  const sortedPlayers = sort
+    ? sortRows(players, p => playerAveragesSortValue(p, sort.col), sort.dir)
+    : players;
+  for (const p of sortedPlayers) {
     const a = p.averages || {};
     const tr = document.createElement("tr");
     for (const c of cols) {
@@ -219,12 +259,24 @@ function buildPlayerAveragesTable(players) {
   return table;
 }
 
-function buildHeader(cols) {
+function buildHeader(cols, tableId) {
   const thead = document.createElement("thead");
   const tr = document.createElement("tr");
+  const sort = tableId ? state.sort[tableId] : null;
   for (const c of cols) {
     const th = document.createElement("th");
     th.textContent = c.h;
+    if (tableId) {
+      th.classList.add("sortable");
+      th.addEventListener("click", () => handleSort(tableId, c.k));
+      if (sort && sort.col === c.k) {
+        th.classList.add("sorted");
+        const arrow = document.createElement("span");
+        arrow.className = "sort-arrow";
+        arrow.textContent = sort.dir === "desc" ? " ▼" : " ▲";
+        th.appendChild(arrow);
+      }
+    }
     tr.appendChild(th);
   }
   thead.appendChild(tr);
@@ -295,11 +347,16 @@ function buildSingleGameBoxScore(game) {
     { k: "_ato", h: "A/TO" },
     { k: "plus_minus", h: "+/-", signed: true },
   ];
+  const tableId = "game-box";
   const table = document.createElement("table");
   table.className = "box";
-  table.appendChild(buildHeader(cols));
+  table.appendChild(buildHeader(cols, tableId));
   const tbody = document.createElement("tbody");
-  for (const p of game.players) {
+  const sort = state.sort[tableId];
+  const sortedGamePlayers = sort
+    ? sortRows(game.players, p => gameSortValue(p, sort.col), sort.dir)
+    : game.players;
+  for (const p of sortedGamePlayers) {
     const tr = document.createElement("tr");
     if (p.dnp) {
       const td = document.createElement("td");
@@ -632,11 +689,16 @@ function buildPlayerGameLog(player) {
     { k: "ts_pct", h: "TS%", pct: true },
     { k: "plus_minus", h: "+/-", signed: true },
   ];
+  const tableId = "player-log";
   const table = document.createElement("table");
   table.className = "box";
-  table.appendChild(buildHeader(cols));
+  table.appendChild(buildHeader(cols, tableId));
   const tbody = document.createElement("tbody");
-  for (const g of player.per_game) {
+  const sort = state.sort[tableId];
+  const sortedGames = sort
+    ? sortRows(player.per_game, g => playerLogSortValue(g, sort.col), sort.dir)
+    : player.per_game;
+  for (const g of sortedGames) {
     const tr = document.createElement("tr");
     if (g.dnp) {
       const td = document.createElement("td");
@@ -690,6 +752,48 @@ function playerLogTotal(player, t, c) {
   if (c.pct) return fmt.pct(t[c.k]);
   if (c.signed) return fmt.signed(t[c.k]);
   return t[c.k] != null ? t[c.k] : "—";
+}
+
+// ---------- sort value extractors ----------
+// Compound make/attempt columns sort by makes; A/TO with infinite ratio sorts as +Infinity.
+// Returning null routes a row to the bottom regardless of direction (used for DNPs).
+
+function playerTotalsSortValue(p, colKey) {
+  const t = p.totals;
+  if (colKey === "_player") return p.name;
+  if (colKey === "_gp") return p.games_played;
+  if (colKey === "_fg") return t.fgm;
+  if (colKey === "_3p") return t.tpm;
+  if (colKey === "_ft") return t.ftm;
+  if (colKey === "_ato") return t.ato_inf ? Infinity : t.ato;
+  return t[colKey];
+}
+
+function playerAveragesSortValue(p, colKey) {
+  if (colKey === "_player") return p.name;
+  if (colKey === "_gp") return p.games_played;
+  return (p.averages || {})[colKey];
+}
+
+function gameSortValue(p, colKey) {
+  if (p.dnp) return null;
+  if (colKey === "_player") return p.name;
+  if (colKey === "_fg") return p.fgm;
+  if (colKey === "_3p") return p.tpm;
+  if (colKey === "_ft") return p.ftm;
+  if (colKey === "_ato") return p.ato_inf ? Infinity : p.ato;
+  return p[colKey];
+}
+
+function playerLogSortValue(g, colKey) {
+  if (g.dnp) return null;
+  if (colKey === "_date") return g.date || "";
+  if (colKey === "_opp") return g.opponent || "";
+  if (colKey === "_res") return g.our_score - g.opp_score;
+  if (colKey === "_fg") return g.fgm;
+  if (colKey === "_3p") return g.tpm;
+  if (colKey === "_ft") return g.ftm;
+  return g[colKey];
 }
 
 // ---------- helpers ----------
