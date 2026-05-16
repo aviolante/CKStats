@@ -134,9 +134,13 @@ def parse_box_score(html: str, our_team: str, roster: dict | None = None) -> dic
         if not m:
             continue
         jersey, name = m.group(1), m.group(2).strip()
-        # Apply roster override (e.g., correct mistyped jersey numbers in source).
-        if roster and name in roster and "jersey" in roster[name]:
-            jersey = str(roster[name]["jersey"])
+        # Apply roster override (e.g., correct mistyped jersey numbers or names in source).
+        if roster and name in roster:
+            override = roster[name]
+            if "jersey" in override:
+                jersey = str(override["jersey"])
+            if "name" in override:
+                name = override["name"]
 
         fgm, fga = parse_made_attempted(cells[i_fg])
         tpm, tpa = parse_made_attempted(cells[i_3p])
