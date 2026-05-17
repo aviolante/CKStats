@@ -115,7 +115,9 @@ def parse_box_score(html: str, our_team: str, roster: dict | None = None) -> dic
     i_oreb, i_dreb = need("oreb"), need("dreb")
     i_foul, i_stl, i_to = need("foul"), need("stl"), need("to")
     i_blk, i_ast = need("blk"), need("asst")
-    i_pm, i_pts = need("+/-"), need("pts")
+    i_pts = need("pts")
+    # +/- is optional — some EasyStats box scores omit the column entirely.
+    i_pm = col.get("+/-")
 
     parsed_rows = []
     for row in all_rows[1:]:
@@ -152,13 +154,14 @@ def parse_box_score(html: str, our_team: str, roster: dict | None = None) -> dic
         to = parse_int(cells[i_to])
         blk = parse_int(cells[i_blk])
         ast = parse_int(cells[i_ast])
-        plusminus_raw = cells[i_pm]
         plus_minus = None
-        if plusminus_raw not in ("", "-"):
-            try:
-                plus_minus = int(plusminus_raw)
-            except ValueError:
-                plus_minus = None
+        if i_pm is not None:
+            plusminus_raw = cells[i_pm]
+            if plusminus_raw not in ("", "-"):
+                try:
+                    plus_minus = int(plusminus_raw)
+                except ValueError:
+                    plus_minus = None
         # DNP: the points cell is "-" (a player who plays but scores 0 has pts="0").
         dnp = cells[i_pts] == "-"
         pts = 0 if dnp else parse_int(cells[i_pts])
