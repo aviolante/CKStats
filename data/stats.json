@@ -1,6 +1,6 @@
 {
   "team_name": "Carolina Krakens",
-  "generated_at": "2026-05-17T17:14:39",
+  "generated_at": "2026-05-17T17:39:00",
   "games": [
     {
       "title": "TPLS 42 at Carolina Krakens 60",
@@ -2410,7 +2410,7 @@
           "to": 3,
           "blk": 3,
           "ast": 2,
-          "plus_minus": null,
+          "plus_minus": -3,
           "pts": 17,
           "fg_pct": 0.5833333333333334,
           "tp_pct": null,
@@ -2438,7 +2438,7 @@
           "to": 2,
           "blk": 0,
           "ast": 1,
-          "plus_minus": null,
+          "plus_minus": 0,
           "pts": 13,
           "fg_pct": 0.2857142857142857,
           "tp_pct": 0.3,
@@ -2466,7 +2466,7 @@
           "to": 0,
           "blk": 0,
           "ast": 1,
-          "plus_minus": null,
+          "plus_minus": 0,
           "pts": 11,
           "fg_pct": 0.5,
           "tp_pct": 0.0,
@@ -2494,7 +2494,7 @@
           "to": 2,
           "blk": 0,
           "ast": 0,
-          "plus_minus": null,
+          "plus_minus": -6,
           "pts": 8,
           "fg_pct": 0.5,
           "tp_pct": 0.0,
@@ -2522,7 +2522,7 @@
           "to": 2,
           "blk": 0,
           "ast": 1,
-          "plus_minus": null,
+          "plus_minus": 1,
           "pts": 2,
           "fg_pct": 1.0,
           "tp_pct": null,
@@ -2550,7 +2550,7 @@
           "to": 1,
           "blk": 0,
           "ast": 0,
-          "plus_minus": null,
+          "plus_minus": -3,
           "pts": 0,
           "fg_pct": null,
           "tp_pct": null,
@@ -2578,7 +2578,7 @@
           "to": 3,
           "blk": 0,
           "ast": 1,
-          "plus_minus": null,
+          "plus_minus": -3,
           "pts": 0,
           "fg_pct": 0.0,
           "tp_pct": 0.0,
@@ -2606,7 +2606,7 @@
           "to": 0,
           "blk": 0,
           "ast": 0,
-          "plus_minus": null,
+          "plus_minus": -1,
           "pts": 0,
           "fg_pct": null,
           "tp_pct": null,
@@ -2617,8 +2617,8 @@
           "ato_inf": false
         },
         {
-          "jersey": "22",
-          "name": "B. Wyant",
+          "jersey": "8",
+          "name": "A. Krieger",
           "dnp": true,
           "fgm": 0,
           "fga": 0,
@@ -2659,27 +2659,6 @@
           "pts": 0
         },
         {
-          "jersey": "8",
-          "name": "A. Krieger",
-          "dnp": true,
-          "fgm": 0,
-          "fga": 0,
-          "tpm": 0,
-          "tpa": 0,
-          "ftm": 0,
-          "fta": 0,
-          "oreb": 0,
-          "dreb": 0,
-          "reb": 0,
-          "foul": 0,
-          "stl": 0,
-          "to": 0,
-          "blk": 0,
-          "ast": 0,
-          "plus_minus": null,
-          "pts": 0
-        },
-        {
           "jersey": "99",
           "name": "S. Hopkins",
           "dnp": true,
@@ -2699,9 +2678,30 @@
           "ast": 0,
           "plus_minus": null,
           "pts": 0
+        },
+        {
+          "jersey": "22",
+          "name": "B. Wyant",
+          "dnp": true,
+          "fgm": 0,
+          "fga": 0,
+          "tpm": 0,
+          "tpa": 0,
+          "ftm": 0,
+          "fta": 0,
+          "oreb": 0,
+          "dreb": 0,
+          "reb": 0,
+          "foul": 0,
+          "stl": 0,
+          "to": 0,
+          "blk": 0,
+          "ast": 0,
+          "plus_minus": null,
+          "pts": 0
         }
       ],
-      "url": "https://easystats-bball.s3.amazonaws.com/F86D7D2B-412B-4376-A51B-EF18A91947BC.html",
+      "url": "https://easystats-bball.s3.amazonaws.com/16AE24D1-6076-4B45-869C-E4754205F2C9.html",
       "minutes": 32,
       "notes": "",
       "team_totals": {
@@ -3000,7 +3000,7 @@
           "to": 2,
           "blk": 0,
           "ast": 1,
-          "plus_minus": null,
+          "plus_minus": 0,
           "pts": 13,
           "fg_pct": 0.2857142857142857,
           "tp_pct": 0.3,
@@ -3053,7 +3053,7 @@
         "blk_pg": 0.125,
         "ast_pg": 1.625,
         "pts_pg": 14.25,
-        "plus_minus_pg": -3.4285714285714284
+        "plus_minus_pg": -3.0
       }
     },
     {
@@ -3325,7 +3325,7 @@
           "to": 3,
           "blk": 3,
           "ast": 2,
-          "plus_minus": null,
+          "plus_minus": -3,
           "pts": 17,
           "fg_pct": 0.5833333333333334,
           "tp_pct": null,
@@ -3353,7 +3353,7 @@
         "blk": 12,
         "ast": 16,
         "pts": 92,
-        "plus_minus": -11,
+        "plus_minus": -14,
         "fg_pct": 0.5277777777777778,
         "tp_pct": 0.38461538461538464,
         "ft_pct": 0.7333333333333333,
@@ -3378,7 +3378,7 @@
         "blk_pg": 1.5,
         "ast_pg": 2.0,
         "pts_pg": 11.5,
-        "plus_minus_pg": -1.5714285714285714
+        "plus_minus_pg": -1.75
       }
     },
     {
@@ -3650,7 +3650,7 @@
           "to": 0,
           "blk": 0,
           "ast": 1,
-          "plus_minus": null,
+          "plus_minus": 0,
           "pts": 11,
           "fg_pct": 0.5,
           "tp_pct": 0.0,
@@ -3703,7 +3703,7 @@
         "blk_pg": 0.0,
         "ast_pg": 1.25,
         "pts_pg": 8.375,
-        "plus_minus_pg": -5.142857142857143
+        "plus_minus_pg": -4.5
       }
     },
     {
@@ -4286,7 +4286,7 @@
           "to": 2,
           "blk": 0,
           "ast": 0,
-          "plus_minus": null,
+          "plus_minus": -6,
           "pts": 8,
           "fg_pct": 0.5,
           "tp_pct": 0.0,
@@ -4314,7 +4314,7 @@
         "blk": 0,
         "ast": 7,
         "pts": 51,
-        "plus_minus": -9,
+        "plus_minus": -15,
         "fg_pct": 0.44,
         "tp_pct": 0.14285714285714285,
         "ft_pct": 0.5454545454545454,
@@ -4339,7 +4339,7 @@
         "blk_pg": 0.0,
         "ast_pg": 0.875,
         "pts_pg": 6.375,
-        "plus_minus_pg": -1.2857142857142858
+        "plus_minus_pg": -1.875
       }
     },
     {
@@ -4475,7 +4475,7 @@
           "to": 2,
           "blk": 0,
           "ast": 1,
-          "plus_minus": null,
+          "plus_minus": 1,
           "pts": 2,
           "fg_pct": 1.0,
           "tp_pct": null,
@@ -4503,7 +4503,7 @@
         "blk": 0,
         "ast": 1,
         "pts": 14,
-        "plus_minus": -6,
+        "plus_minus": -5,
         "fg_pct": 0.875,
         "tp_pct": null,
         "ft_pct": null,
@@ -4528,7 +4528,7 @@
         "blk_pg": 0.0,
         "ast_pg": 0.25,
         "pts_pg": 3.5,
-        "plus_minus_pg": -2.0
+        "plus_minus_pg": -1.25
       }
     },
     {
@@ -4772,7 +4772,7 @@
           "to": 3,
           "blk": 0,
           "ast": 1,
-          "plus_minus": null,
+          "plus_minus": -3,
           "pts": 0,
           "fg_pct": 0.0,
           "tp_pct": 0.0,
@@ -4800,7 +4800,7 @@
         "blk": 0,
         "ast": 8,
         "pts": 11,
-        "plus_minus": -48,
+        "plus_minus": -51,
         "fg_pct": 0.26666666666666666,
         "tp_pct": 0.2727272727272727,
         "ft_pct": null,
@@ -4825,7 +4825,7 @@
         "blk_pg": 0.0,
         "ast_pg": 2.0,
         "pts_pg": 2.75,
-        "plus_minus_pg": -16.0
+        "plus_minus_pg": -12.75
       }
     },
     {
@@ -5097,7 +5097,7 @@
           "to": 1,
           "blk": 0,
           "ast": 0,
-          "plus_minus": null,
+          "plus_minus": -3,
           "pts": 0,
           "fg_pct": null,
           "tp_pct": null,
@@ -5125,7 +5125,7 @@
         "blk": 1,
         "ast": 6,
         "pts": 6,
-        "plus_minus": -42,
+        "plus_minus": -45,
         "fg_pct": 0.42857142857142855,
         "tp_pct": 0.0,
         "ft_pct": null,
@@ -5150,7 +5150,7 @@
         "blk_pg": 0.125,
         "ast_pg": 0.75,
         "pts_pg": 0.75,
-        "plus_minus_pg": -6.0
+        "plus_minus_pg": -5.625
       }
     },
     {
@@ -6009,7 +6009,7 @@
           "to": 0,
           "blk": 0,
           "ast": 0,
-          "plus_minus": null,
+          "plus_minus": -1,
           "pts": 0,
           "fg_pct": null,
           "tp_pct": null,
@@ -6037,7 +6037,7 @@
         "blk": 0,
         "ast": 1,
         "pts": 2,
-        "plus_minus": -49,
+        "plus_minus": -50,
         "fg_pct": 1.0,
         "tp_pct": null,
         "ft_pct": null,
@@ -6062,7 +6062,7 @@
         "blk_pg": 0.0,
         "ast_pg": 0.16666666666666666,
         "pts_pg": 0.3333333333333333,
-        "plus_minus_pg": -9.8
+        "plus_minus_pg": -8.333333333333334
       }
     },
     {
