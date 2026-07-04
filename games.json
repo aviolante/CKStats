@@ -57,6 +57,20 @@
       "notes": "",
       "opponent": "Team United GSO",
       "video_url": "https://youtu.be/50XBNkzIzds"
+    },
+    {
+      "url": "https://easystats-bball.s3.amazonaws.com/0342EAAB-AC8A-49E8-9514-58B30CFDA586.html",
+      "minutes": 32,
+      "notes": "",
+      "opponent": "Brunswick Blue Hawks",
+      "video_url": "https://www.youtube.com/watch?v=SRaGbGk9lW4"
+    },
+    {
+      "url": "https://easystats-bball.s3.amazonaws.com/68E9CAAF-20D5-4C14-8B0A-1894FBB11D83.html",
+      "minutes": 32,
+      "notes": "",
+      "opponent": "Team Pressure 910 8th",
+      "video_url": "https://www.youtube.com/watch?v=k8ghsv3vSoI"
     }
   ]
 }
